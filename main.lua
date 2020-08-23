@@ -34,6 +34,20 @@ function love.draw()
   engine:handleEvent("draw")
 end
 
+function love.keypressed(key, scancode, isrepeat)
+  local ctrlDown = love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")
+  local guiDown = love.keyboard.isDown("lgui") or love.keyboard.isDown("lgui")
+
+  if (ctrlDown or guiDown) and key == "p" then
+    local timestamp = os.date('%Y-%m-%d-%H-%M-%S')
+    local filename = "screenshot-" .. timestamp .. ".png"
+    love.graphics.captureScreenshot(filename)
+
+    local saveDirectory = love.filesystem.getSaveDirectory()
+    print("Captured screenshot: " .. saveDirectory .. "/" .. filename)
+  end
+end
+
 function love.resize(width, height)
   engine:handleEvent("resize", width, height)
 end
